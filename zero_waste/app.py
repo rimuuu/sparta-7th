@@ -2,13 +2,18 @@ from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 
 app = Flask(__name__)
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://rimuuu:thfl1133@13.125.59.218', 27017)
 db = client.dbproject
 
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/.well-known/acme-challenge/<acme>')
+def acme(acme):
+    return "{}.2F6wNCOABFWH3g39zHh3GDjZimbjIgNj1kpOaSJCD_w".format(acme)
 
 
 @app.route('/shop')
@@ -42,7 +47,7 @@ def item_all():
     cateogry_dict = {
         "cleaning": "Cleaning",
         "haircare": "Hair Care",
-        "home": "Home",
+        "forthehome": "Home",
         "makeup": "Makeup",
         "kitchen": "Kitchen",
         "kids": "Kids & Baby",

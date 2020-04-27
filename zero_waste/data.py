@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://rimuuu:thfl1133@13.125.59.218', 27017)
 db = client.dbproject
 
 
@@ -66,7 +66,7 @@ def get_info():
                     'img_url': img_url,
                     'img_src': img_src
                 }
-                # db.zerowastestore.insert_one(doc)
+                db.zerowastestore.insert_one(doc)
 
 
 def main_info():
@@ -109,3 +109,5 @@ def update_db():
 
 if __name__ == "__main__":
     # get_info()
+    # main_info()
+    update_db()

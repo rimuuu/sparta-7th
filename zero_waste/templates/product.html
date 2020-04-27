@@ -10,7 +10,15 @@
 </script>
 {% endblock %}{% block title %}
 <div class="subtitle">
-  <h1>Category : Personal Hygiene</h1>
+  <h1>
+    Category : {% if category == 'cleaning' %}Cleaning{% elif category ==
+    'haircare' %}Hair Care{% elif category == 'forthehome' %}Home{% elif
+    category == 'makeup' %}Makeup{% elif category == 'kitchen' %}Kitchen{% elif
+    category == 'kids' %}Kids & Baby{% elif category == 'oral' %}Oral Hygiene{%
+    elif category == 'personal' %}Personal Hygiene{% elif category == 'travel'
+    %}Travel{% elif category == 'skincare' %}Skin Care{% elif category ==
+    'others' %}Others{% endif %}
+  </h1>
 </div>
 {% endblock %} {% block products %}
 <div class="products" id="products-area" isWish="false"></div>

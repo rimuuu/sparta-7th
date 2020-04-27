@@ -6,7 +6,12 @@ function arrival() {
     type: "GET",
     data: {},
     success: function (response) {
+      let localStorageWish = localStorage.getItem("wish");
+      let wish = JSON.parse(localStorageWish) || [];
+
       for (let i = 0; i < response.length; i++) {
+        console.log(response[i]);
+
         let main_title = response[i]["main_title"];
         let main_image = response[i]["main_img_src"].replace(
           "50x50",
@@ -15,19 +20,28 @@ function arrival() {
         let main_price = response[i]["main_price"];
         let main_img_url = response[i]["main_img_url"];
 
+        let hasWish = false;
+        if (
+          wish.filter((w) => w.includes(`title="${main_title}"`)).length > 0
+        ) {
+          hasWish = true;
+        }
+
         let main_html = `
-        <div class="product">
-          <a href ="#" class="like"><i class="far fa-heart"></i></a>
-         <a class="link" href="${main_img_url}">
-           <img class="image" src="${main_image}">
-           <div class="after"><i class="fas fa-sign-in-alt"></i></div></a>
-         <div class="description">
-            <div class="title">${main_title}</div>
-            <div class="price">${main_price}</div>
-           
+          <div class="product" title="${main_title}">
+            <a class="like"><i class="far fa-heart ${
+              hasWish ? "fas" : ""
+            }"></i></a>
+          <a class="link" href="${main_img_url}">
+            <img class="image" src="${main_image}">
+            <div class="after"><i class="fas fa-sign-in-alt"></i></div></a>
+          <div class="description">
+              <div class="title">${main_title}</div>
+              <div class="price">${main_price}</div>
+            
+            </div>
           </div>
-        </div>
-    `;
+        `;
         $("#products-area").append(main_html);
       }
     },
@@ -61,7 +75,7 @@ function getProduct() {
 
         let html = `
             <div class="product" title="${title}">
-              <a href ="#" class="like"><i class="far fa-heart ${
+              <a class="like"><i class="far fa-heart ${
                 hasWish ? "fas" : ""
               }"></i></a>
               <a class="link" href="${img_url}">
@@ -89,10 +103,8 @@ $(document).on("click", ".like", function wishclick() {
   if ($(this).find(".fa-heart").hasClass("fas")) {
     deleteWish(title);
     $(this).children().removeClass("fas");
-    $(this).css("color", "#fff");
   } else {
     $(this).children().addClass("fas");
-    $(this).css("color", "#f4dd53");
 
     if (html) {
       let wishItem = `
